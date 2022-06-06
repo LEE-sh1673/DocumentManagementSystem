@@ -1,0 +1,4 @@
+target/
+.idea/
+DocumentManagementSystem.iml
+src/main/resources/requirements.md
