@@ -15,10 +15,10 @@ public class ReportImporter implements Importer {
         textFile.addLineSuffix(NAME_PREFIX, PATIENT);
 
         // extract lineNumber of letter contents.
-        textFile.addLines(2, String::isEmpty, BODY);
+        textFile.addLines(2, line -> false, BODY);
 
         final Map<String, String> attributes = textFile.getAttributes();
-        attributes.put(TYPE, "LETTER");
+        attributes.put(TYPE, "REPORT");
 
         return new Document(attributes);
     }
