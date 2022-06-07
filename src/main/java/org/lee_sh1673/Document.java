@@ -12,4 +12,12 @@ public class Document {
     public String getAttribute(final String attributeName) {
         return attributes.get(attributeName);
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (final Map.Entry<String, String> attribute : attributes.entrySet()) {
+            sb.append("[" + attribute.getKey() + "]: " + attribute.getValue() + "\n");
+        }
+        return sb.toString();
+    }
 }
