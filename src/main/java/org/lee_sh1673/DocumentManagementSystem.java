@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.lee_sh1673.Attributes.WIDTH;
-
 public class DocumentManagementSystem {
 
     private final List<Document> documents
@@ -18,7 +16,9 @@ public class DocumentManagementSystem {
             = new HashMap<>();
 
     public DocumentManagementSystem() {
-        //TODO: put more importer later (letter, report)
+        //TODO: put invoice importer later
+        extensionToImporter.put("report", new ReportImporter());
+        extensionToImporter.put("letter", new LetterImporter());
         extensionToImporter.put("jpg", new ImageImporter());
     }
 
@@ -53,9 +53,10 @@ public class DocumentManagementSystem {
     }
 
     //TODO: This is temp method for test.
-    public void showDocumentWidthInfo() {
+    public void showDocumentsInfo() {
         for (final Document document : documents) {
-            System.out.println(document.getAttribute(WIDTH));
+
+            System.out.println(document);
         }
     }
 }
