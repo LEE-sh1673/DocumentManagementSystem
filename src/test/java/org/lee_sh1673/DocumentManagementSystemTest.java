@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -80,6 +81,24 @@ class DocumentManagementSystemTest {
         assertThrows(UnknownFileTypeException.class, () -> {
             system.importFile(RESOURCES + "unknown.txt");
         });
+    }
+
+    @Test public void shouldSearchDocumentsCorrectly() throws IOException {
+        system.importFile(REPORT);
+        system.importFile(MEDICINE);
+
+        final String query = "patient:Joe Bloggs,amount:$100,date:30-01-2022";
+        final List<Document> documents = system.search(query);
+
+        assertThat(documents, hasSize(1));
+
+        final Document result = documents.get(0);
+
+        assertAttributeEquals(result, AMOUNT, "$100");
+        assertAttributeEquals(result, CONDITION, "Twice on a day");
+        assertAttributeEquals(result, PATIENT, "Joe Bloggs");
+        assertAttributeEquals(result, Attributes.MEDICINE, "headache pill");
+        assertTypeIs("MEDICINE", result);
     }
 
     private Document onlyDocument() {
