@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DocumentManagementSystem {
 
@@ -18,6 +19,7 @@ public class DocumentManagementSystem {
 
     public DocumentManagementSystem() {
         //TODO: put invoice importer later
+        extensionToImporter.put("medicine", new MedicineImporter());
         extensionToImporter.put("report", new ReportImporter());
         extensionToImporter.put("letter", new LetterImporter());
         extensionToImporter.put("jpg", new ImageImporter());
@@ -36,9 +38,6 @@ public class DocumentManagementSystem {
         if (separatorIndex != -1) {
 
             // If path has no extension file.
-            if (separatorIndex == path.length()) {
-                throw new UnknownFileTypeException("No extension found For file: " + path);
-            }
             final String extension = path.substring(separatorIndex + 1);
             final Importer importer = extensionToImporter.get(extension);
 
@@ -55,5 +54,11 @@ public class DocumentManagementSystem {
 
     public List<Document> contents() {
         return documentViews;
+    }
+
+    public List<Document> search(final String query) {
+        return documents.stream()
+                .filter(Query.parse(query))
+                .collect(Collectors.toList());
     }
 }
