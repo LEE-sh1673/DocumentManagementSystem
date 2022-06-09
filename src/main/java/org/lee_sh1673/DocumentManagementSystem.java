@@ -3,15 +3,16 @@ package org.lee_sh1673;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DocumentManagementSystem {
 
     private final List<Document> documents
             = new ArrayList<>();
+
+    private final List<Document> documentViews
+            = Collections.unmodifiableList(documents);
+
     private final Map<String, Importer> extensionToImporter
             = new HashMap<>();
 
@@ -52,11 +53,7 @@ public class DocumentManagementSystem {
         }
     }
 
-    //TODO: This is temp method for test.
-    public void showDocumentsInfo() {
-        for (final Document document : documents) {
-
-            System.out.println(document);
-        }
+    public List<Document> contents() {
+        return documentViews;
     }
 }
